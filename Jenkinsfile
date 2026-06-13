@@ -1,20 +1,24 @@
-pipeline{
-    stage{
-        stage('install') {
-            steps{
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Install') {
+            steps {
                 sh 'npm install'
             }
         }
-        stage ('Build'){
-            steps{
+
+        stage('Build') {
+            steps {
                 sh 'npm run build'
             }
         }
-        stage ('Deploy'){
-            steps{
-                echo 'Deploying...'
+
+        stage('Deploy') {
+            steps {
                 sh '''
-                cp -r dist/* /var/www/html/
+               sudo cp -r dist/* /var/www/html/
                 sudo systemctl restart nginx
                 '''
             }
